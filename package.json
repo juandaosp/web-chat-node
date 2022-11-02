@@ -2,23 +2,37 @@
   "name": "web-chat-node",
   "version": "1.0.0",
   "description": "Web chat application created with node as part of #100DaysOfCode. This repository have a basic implementation of web chat app following the \"Learning Node.js\" course, part of Linkendin \"Become a Node.js\" learning path.",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+  "main": "config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juandaosp/web-chat-node.git"
   },
-  "repository": "git+https://github.com/juandaosp/web-chat-node.git",
-  "keywords": [],
-  "author": "Juan Ospina <juan.ospina@morningstar.com>",
+  "keywords": [
+    "training",
+    "linkedin",
+    "node",
+    "express",
+    "socket.io",
+    "mongodb"
+  ],
+  "author": "Juan David Ospina",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/juandaosp/web-chat-node/issues"
   },
   "homepage": "https://github.com/juandaosp/web-chat-node#readme",
   "dependencies": {
-    "body-parser": "^1.20.1",
     "express": "^4.18.2",
-    "nodemon": "^2.0.20",
-    "socket.io": "^4.5.3"
-  }
+    "mongodb": "^4.11.0",
+    "mongoose": "^6.7.0",
+    "socket.io": "^4.5.3",
+    "socket.io-client": "^4.5.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  },
+  "scripts": {
+    "dev": "nodemon server.js"
+  },
+  "type": "module"
 }
