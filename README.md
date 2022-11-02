@@ -5,9 +5,11 @@ Web chat application created with node as part of #100DaysOfCode. This repositor
 ## Setup
 
 * Install node packages
+
 ```npm install```
 * change configuration at .env file. See .env.template for reference
 * run the project
+
 ```npm run dev```
 
 
