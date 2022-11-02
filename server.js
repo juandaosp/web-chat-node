@@ -1,5 +1,6 @@
 import express from 'express';
-import { serverConfig } from "./config.js";
+import * as dotenv from 'dotenv'
+dotenv.config()
 import bodyParser from "body-parser";
 import * as http from 'http';
 import { Server } from "socket.io";
@@ -23,15 +24,18 @@ const Message = mongoose.model("Message", {
   text: String,
 });
 
-console.log(`starting server at port ${serverConfig.port}`);
+const { PORT, APP_NAME, MONGO_DB_API_USER, MONGO_DB_API_PASSWORD } = process.env;
 
+const URI = `mongodb+srv://${MONGO_DB_API_USER}:${MONGO_DB_API_PASSWORD}@web-chat-tutorial.nmllzgj.mongodb.net/?retryWrites=true&w=majority`
+console.log(URI)
 try {
+  console.info("connecting to mongoose");
   // Connect to the MongoDB cluster
   mongoose.connect(
-    serverConfig.uri,
+    URI,
     { useNewUrlParser: true, useUnifiedTopology: true },
     (e) => {
-      console.log("mongoose connected", e);
+      console.info("mongoose connected", e);
     }
   );
 
@@ -43,8 +47,10 @@ io.on("connection", (socket) => {
   console.log("socket.io loaded: ", socket.connected);
 })
 
-const server = HTTPServer.listen(serverConfig.port, () => {
-  console.log(`${serverConfig.appName}: node server started at ${server.address().port}`);
+console.log(`starting server at port: ${PORT}`);
+
+const server = HTTPServer.listen(PORT, () => {
+  console.log(`${PORT}: node server started at ${PORT}`);
 });
 
 app.get("/messages", (_, res) => {
