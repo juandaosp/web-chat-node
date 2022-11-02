@@ -25,11 +25,6 @@ const Message = mongoose.model("Message", {
 
 console.log(`starting server at port ${serverConfig.port}`);
 
-const messages = [
-  {name:"Jhon", text: "hi"},
-  {name:"Doe", text: "Hello"}
-];
-
 try {
   // Connect to the MongoDB cluster
   mongoose.connect(
@@ -53,8 +48,19 @@ const server = HTTPServer.listen(serverConfig.port, () => {
 });
 
 app.get("/messages", (_, res) => {
-  res.send(messages);
-})
+  Message.find({}, (err, messages) => {
+    res.send(messages);
+  })
+  
+});
+
+app.get("/messages/:user", (req, res) => {
+  const user = req.params.user;
+  Message.find({name: user}, (err, messages) => {
+    res.send(messages);
+  })
+  
+});
 
 app.post("/messages", async (req, res) => {
   try {
@@ -62,15 +68,14 @@ app.post("/messages", async (req, res) => {
     if(message && message.name !== "" && message.text !== "") {
       const schema = new Message(message);
       const savedMessage = await schema.save();
-        console.log("adding message", message);
-        messages.push(message);
-        io.emit("message", message);
-        res.sendStatus(200);
-        return savedMessage;
+      console.log("adding message", message);
+      io.emit("message", message);
+      res.sendStatus(200);
+      return savedMessage;
       
     } else {
       res.sendStatus(500);
-      console.error("Error: the message should have name and tet");
+      console.error("Error: the message should have name and text");
       return res;
     }
   } catch (error) {
